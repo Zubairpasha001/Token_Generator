@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Generator with 3D Hover</title>
+    <!-- Importing Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Materialize CSS for Material UI -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <style>
+        /* Container styling for better alignment */
+        body {
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Glowing title effect */
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            font-size: 2.5em;
+            color: #26a69a;
+            text-align: center;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #26a69a, 0 0 20px #26a69a, 0 0 30px #26a69a, 0 0 40px #26a69a;
+            }
+            to {
+                text-shadow: 0 0 20px #64ffda, 0 0 30px #64ffda, 0 0 40px #64ffda, 0 0 50px #64ffda;
+            }
+        }
+
+        /* Token container */
+        .token-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+            perspective: 1000px; /* Adding perspective for 3D effect */
+        }
+        
+        /* Token styling with gradient, hover, and 3D effects */
+        .token {
+            padding: 12px;
+            margin: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s;
+            transform-style: preserve-3d; /* 3D effect */
+        }
+
+        .token:hover {
+            transform: rotateY(10deg) rotateX(5deg) scale(1.1); /* 3D Rotation on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Gradient backgrounds for blue and red tokens */
+        .blue-token {
+            background: linear-gradient(45deg, #42a5f5, #1e88e5);
+        }
+
+        .blue-token:hover {
+            background: linear-gradient(45deg, #64b5f6, #2196f3);
+        }
+
+        .red-token {
+            background: linear-gradient(45deg, #ef5350, #e53935);
+        }
+
+        .red-token:hover {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+        }
+
+        /* Button styling with hover, shadow, and 3D effects */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05) rotateX(3deg); /* 3D pop effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(1px) scale(0.98); /* Button press effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .teal:hover {
+            background-color: #00897b !important;
+        }
+
+        .red:hover {
+            background-color: #c62828 !important;
+        }
+
+        /* Aligning buttons */
+        .btn-row {
+            margin-top: 30px;
+        }
+
+        /* Adding subtle animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply the animation to the token container */
+        .token {
+            animation: fadeInUp 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3 class="center-align teal-text">Token Generator</h3>
+    
+    <!-- Form to input values -->
+    <div class="row">
+        <div class="col s6">
+            <div class="input-field">
+                <input id="blueTokenCount" type="number" class="validate">
+                <label for="blueTokenCount">Number of Blue Tokens</label>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <input id="blueTokenPrefix" type="text" class="validate">
+                <label for="blueTokenPrefix">Prefix for Blue Tokens</label>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <input id="blueTokensPerRow" type="number" class="validate">
+                <label for="blueTokensPerRow">Blue Tokens per Row</label>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <input id="redTokenCount" type="number" class="validate">
+                <label for="redTokenCount">Number of Red Tokens</label>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <input id="redTokenPrefix" type="text" class="validate">
+                <label for="redTokenPrefix">Prefix for Red Tokens</label>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="input-field">
+                <input id="redTokensPerRow" type="number" class="validate">
+                <label for="redTokensPerRow">Red Tokens per Row</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="row center-align btn-row">
+        <button class="btn teal waves-effect waves-light" onclick="generateTokens()">Generate
+            <i class="material-icons right">send</i>
+        </button>
+        <button class="btn red lighten-1 waves-effect waves-light" onclick="clearTokens()">Clear
+            <i class="material-icons right">clear</i>
+        </button>
+    </div>
+
+    <!-- Token display area -->
+    <div id="tokenDisplay" class="token-container"></div>
+</div>
+
+<!-- Materialize JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<!-- Custom JS -->
+<script>
+    function generateTokens() {
+        // Get input values
+        const blueTokenCount = parseInt(document.getElementById('blueTokenCount').value) || 0;
+        const blueTokenPrefix = document.getElementById('blueTokenPrefix').value || 'B';
+        const blueTokensPerRow = parseInt(document.getElementById('blueTokensPerRow').value) || 5;
+        
+        const redTokenCount = parseInt(document.getElementById('redTokenCount').value) || 0;
+        const redTokenPrefix = document.getElementById('redTokenPrefix').value || 'R';
+        const redTokensPerRow = parseInt(document.getElementById('redTokensPerRow').value) || 5;
+        
+        // Clear the display area
+        const tokenDisplay = document.getElementById('tokenDisplay');
+        tokenDisplay.innerHTML = '';
+
+        // Generate Blue Tokens
+        for (let i = 1; i <= blueTokenCount; i++) {
+            const token = document.createElement('div');
+            token.className = 'token blue-token';
+            token.textContent = `${blueTokenPrefix}${i}`;
+            tokenDisplay.appendChild(token);
+            if (i % blueTokensPerRow === 0) tokenDisplay.appendChild(document.createElement('br'));
+        }
+
+        // Generate Red Tokens
+        for (let i = 1; i <= redTokenCount; i++) {
+            const token = document.createElement('div');
+            token.className = 'token red-token';
+            token.textContent = `${redTokenPrefix}${i}`;
+            tokenDisplay.appendChild(token);
+            if (i % redTokensPerRow === 0) tokenDisplay.appendChild(document.createElement('br'));
+        }
+    }
+
+    // Clear function
+    function clearTokens() {
+        document.getElementById('blueTokenCount').value = '';
+        document.getElementById('blueTokenPrefix').value = '';
+        document.getElementById('blueTokensPerRow').value = '';
+        document.getElementById('redTokenCount').value = '';
+        document.getElementById('redTokenPrefix').value = '';
+        document.getElementById('redTokensPerRow').value = '';
+        document.getElementById('tokenDisplay').innerHTML = '';
+    }
+</script>
+
+</body>
+</html>
+
+
+
